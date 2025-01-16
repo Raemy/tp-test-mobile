@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/score_viewmodel.dart';
-import 'player_score_widget.dart';
+import '../models/player_model.dart'; 
 
 
 class TennisMatchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Accède au ScoreViewModel via Provider
     final scoreViewModel = Provider.of<ScoreViewModel>(context);
 
     return Scaffold(
@@ -20,34 +19,63 @@ class TennisMatchScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Joueur 1: ${scoreViewModel.player1.name} - ${scoreViewModel.player1.currentGameScore}',
-              style: TextStyle(fontSize: 24),
-            ),
-            Text(
-              'Joueur 2: ${scoreViewModel.player2.name} - ${scoreViewModel.player2.currentGameScore}',
-              style: TextStyle(fontSize: 24),
-            ),
+            // Rectangle horizontal pour Joueur 1
+            _buildPlayerInfo(scoreViewModel.player1),
             SizedBox(height: 20),
-            // Affichage des scores des sets et jeux
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            // Rectangle horizontal pour Joueur 2
+            _buildPlayerInfo(scoreViewModel.player2),
+            SizedBox(height: 40),
+
+            // Boutons pour incrémenter le score
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Sets: ${scoreViewModel.player1.setsWon} - ${scoreViewModel.player2.setsWon}", 
-                     style: TextStyle(fontSize: 24)),
-                Text("Jeux: ${scoreViewModel.player1.gamesWon} - ${scoreViewModel.player2.gamesWon}", 
-                     style: TextStyle(fontSize: 20)),
+                ElevatedButton(
+                  onPressed: () => scoreViewModel.incrementScore(scoreViewModel.player1),
+                  child: Text('Marquer un point pour ${scoreViewModel.player1.name}'),
+                ),
+                SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: () => scoreViewModel.incrementScore(scoreViewModel.player2),
+                  child: Text('Marquer un point pour ${scoreViewModel.player2.name}'),
+                ),
               ],
             ),
-            SizedBox(height: 20),
-            // Ajouter d'autres widgets pour afficher les scores, les jeux, les sets, etc.
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildPlayerInfo(PlayerModel player) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.blue[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Nom du joueur
+          Text(
+            player.name,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          // Affichage des sets et jeux
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text("Sets: ${player.setsWon}", style: TextStyle(fontSize: 18)),
+              Text("Jeux: ${player.gamesWon}", style: TextStyle(fontSize: 16)),
+            ],
+          ),
+        ],
       ),
     );
   }
