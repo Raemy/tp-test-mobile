@@ -15,7 +15,7 @@ class TennisMatchScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: scoreViewModel.toggleService,  // Change le serveur
+            onPressed: scoreViewModel.resetScores,
           ),
         ],
       ),
