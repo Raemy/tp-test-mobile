@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tennis Score Tracker',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: MatchScreen(),
+      home: TennisMatchScreen(),
     );
   }
 }

@@ -1,15 +1,15 @@
 class PlayerModel {
   String name;
-  int currentGameScore;
-  List<int> gamesWon;
-  int setsWon;
   bool isServing;
+  String currentGameScore;  // Utilisation de String pour le score
+  int gamesWon;
+  int setsWon;
 
   PlayerModel({
     required this.name,
-    this.currentGameScore = 0,
-    this.gamesWon = const [],
+    required this.isServing,
+    this.currentGameScore = "0", // Initialisation avec "0"
+    this.gamesWon = 0,
     this.setsWon = 0,
-    this.isServing = false,
   });
 }
